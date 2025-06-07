@@ -1,28 +1,64 @@
 // server.js
-const express = require('express');
-const path    = require('path');
-const { Client } = require('@notionhq/client');
+const express       = require('express');
+const path          = require('path');
+const session       = require('express-session');
+const { Client }    = require('@notionhq/client');
 
 const app = express();
 
-// ——————————————————————————————
+// ───────────────────────────────────────────────────────────────────────────────
+// Session middleware (for personalized progress tracking)
+// ───────────────────────────────────────────────────────────────────────────────
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'replace-with-secure-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
+}));
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Body parser (for JSON in POST /session)
+// ───────────────────────────────────────────────────────────────────────────────
+app.use(express.json());
+
+// ───────────────────────────────────────────────────────────────────────────────
 // 1) Serve your static stroke files
-// ——————————————————————————————
+// ───────────────────────────────────────────────────────────────────────────────
 app.use(
   '/files',
   express.static(path.join(__dirname, 'files'))
 );
 
-// ——————————————————————————————
+// ───────────────────────────────────────────────────────────────────────────────
 // 2) Health check
-// ——————————————————————————————
+// ───────────────────────────────────────────────────────────────────────────────
 app.get('/', (req, res) => {
   res.send('Stroke Files API is live');
 });
 
-// ——————————————————————————————
-// 3) Notion integration setup
-// ——————————————————————————————
+// ───────────────────────────────────────────────────────────────────────────────
+// 3) Session endpoints for progress tracking
+// ───────────────────────────────────────────────────────────────────────────────
+
+// Retrieve last stroke & context
+app.get('/session', (req, res) => {
+  res.json({
+    lastStroke: req.session.lastStroke || null,
+    context:    req.session.context    || null
+  });
+});
+
+// Save last stroke & context
+app.post('/session', (req, res) => {
+  const { lastStroke, context } = req.body;
+  req.session.lastStroke = lastStroke;
+  req.session.context    = context;
+  res.sendStatus(204);
+});
+
+// ───────────────────────────────────────────────────────────────────────────────
+// 4) Notion integration setup
+// ───────────────────────────────────────────────────────────────────────────────
 // (Ensure NOTION_TOKEN is set in your environment variables)
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
@@ -49,9 +85,9 @@ app.get('/notion/page/:pageId', async (req, res) => {
   }
 });
 
-// ——————————————————————————————
-// 4) Start the server
-// ——————————————————————————————
+// ───────────────────────────────────────────────────────────────────────────────
+// 5) Start the server
+// ───────────────────────────────────────────────────────────────────────────────
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
