@@ -1,16 +1,21 @@
+// server.js
 const express = require('express');
 const path    = require('path');
+const fs      = require('fs');
 const { Client } = require('@notionhq/client');
 
 const app = express();
 
 // ——————————————————————————————
+// Debug: Check where we’re looking for files
+// ——————————————————————————————
+const filesDir = path.join(__dirname, 'files');
+console.log('Static files directory:', filesDir, 'Exists:', fs.existsSync(filesDir));
+
+// ——————————————————————————————
 // 1) Serve your static stroke files
 // ——————————————————————————————
-app.use(
-  '/files',
-  express.static(path.join(__dirname, 'files'))
-);
+app.use('/files', express.static(filesDir));
 
 // ——————————————————————————————
 // 2) Health check
@@ -22,25 +27,16 @@ app.get('/', (req, res) => {
 // ——————————————————————————————
 // 3) Notion integration setup
 // ——————————————————————————————
-// (Ensure NOTION_TOKEN is set in your environment variables)
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 app.get('/notion/page/:pageId', async (req, res) => {
   const pageId = req.params.pageId;
   try {
-    // List child blocks of the page
     const response = await notion.blocks.children.list({ block_id: pageId });
-
-    // Extract plain text from paragraph.rich_text
     const content = response.results
-      .filter(block => block.type === 'paragraph' && Array.isArray(block.paragraph.rich_text))
-      .map(block =>
-        block.paragraph.rich_text
-          .map(textPart => textPart.plain_text)
-          .join('')
-      )
+      .filter(b => b.type === 'paragraph' && Array.isArray(b.paragraph.rich_text))
+      .map(b => b.paragraph.rich_text.map(t => t.plain_text).join(''))
       .filter(txt => txt.length > 0);
-
     return res.json({ pageId, content });
   } catch (err) {
     console.error('⛔ Notion fetch error:', err);
