@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 // ——————————————————————————————
 // 3) Notion integration setup
 // ——————————————————————————————
-// (Make sure you've set NOTION_TOKEN in Render’s Environment!)
+// (Ensure NOTION_TOKEN is set in your environment variables)
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
 app.get('/notion/page/:pageId', async (req, res) => {
@@ -31,10 +31,15 @@ app.get('/notion/page/:pageId', async (req, res) => {
   try {
     // List child blocks of the page
     const response = await notion.blocks.children.list({ block_id: pageId });
-    // Pull out paragraph text
+
+    // Extract plain text from paragraph.rich_text
     const content = response.results
-      .filter(b => b.type === 'paragraph')
-      .map(b => b.paragraph.text.map(t => t.plain_text).join(''))
+      .filter(block => block.type === 'paragraph' && Array.isArray(block.paragraph.rich_text))
+      .map(block =>
+        block.paragraph.rich_text
+          .map(textPart => textPart.plain_text)
+          .join('')
+      )
       .filter(txt => txt.length > 0);
 
     return res.json({ pageId, content });
