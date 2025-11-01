@@ -1,0 +1,72 @@
+openapi: 3.1.0
+info:
+  title: Zenity Stroke Trainer — Drop Stroke
+  version: 1.0.0
+servers:
+  - url: https://stroke-files-api.onrender.com
+paths:
+  /files/keystrokes.txt:
+    get:
+      operationId: get_keystroke_master
+      summary: Returns keystroke reference master
+      responses:
+        '200':
+          description: Keystroke drills retrieved
+  /files/biometrics.txt:
+    get:
+      operationId: get_biomechanics_master
+      summary: Returns biomechanics adaptation guide
+      responses:
+        '200':
+          description: Biomechanical adaptations retrieved
+  /files/strokes/{strokeName}.txt:
+    get:
+      operationId: get_stroke_file
+      summary: Returns Drop Stroke file
+      parameters:
+        - name: strokeName
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - Drop Stroke494
+              - Drop Stroke750
+              - Drop Stroke848
+              - Drop Stroke849
+              - Drop Stroke850
+              - Drop Stroke948
+              - Drop Stroke949
+              - Drop Stroke950
+          description: Must be one of the authorized Drop Stroke files
+      responses:
+        '200':
+          description: Stroke protocol retrieved
+  /files/media.json:
+    get:
+      operationId: get_media_links
+      summary: Returns helpful video/tutorial links
+      parameters:
+        - name: topic
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Topic like "rhythm_patterns", "rotation", "warmup", or "practice_basics"
+      responses:
+        '200':
+          description: Links to media tutorials retrieved
+  /notion/page/{pageId}:
+    get:
+      operationId: get_notion_page
+      summary: Returns text content from a Notion knowledge base page
+      parameters:
+        - name: pageId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Notion page ID (e.g., b65a9fffaa30431693b828bac81732c8)
+      responses:
+        '200':
+          description: Page content retrieved from Notion
