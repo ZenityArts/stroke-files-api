@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Zenity Stroke Trainer — Drop Stroke
+  title: Zenity Stroke Trainer — Stroke Families
   version: 1.0.0
 servers:
   - url: https://stroke-files-api.onrender.com
@@ -12,6 +12,7 @@ paths:
       responses:
         '200':
           description: Keystroke drills retrieved
+
   /files/biometrics.txt:
     get:
       operationId: get_biomechanics_master
@@ -19,10 +20,11 @@ paths:
       responses:
         '200':
           description: Biomechanical adaptations retrieved
+
   /files/strokes/{strokeName}.txt:
     get:
       operationId: get_stroke_file
-      summary: Returns Drop Stroke file
+      summary: Returns stroke drill file
       parameters:
         - name: strokeName
           in: path
@@ -30,18 +32,252 @@ paths:
           schema:
             type: string
             enum:
-              - Drop Stroke494
-              - Drop Stroke750
-              - Drop Stroke848
-              - Drop Stroke849
-              - Drop Stroke850
-              - Drop Stroke948
-              - Drop Stroke949
-              - Drop Stroke950
-          description: Must be one of the authorized Drop Stroke files
+              # Delta
+              - Delta748
+              - Delta749
+              - Delta750
+              - Delta848
+              - Delta849
+              - Delta850
+              - Delta948
+              - Delta949
+              - Delta950
+
+              # Cacao
+              - Cacao748
+              - Cacao749
+              - Cacao750
+              - Cacao848
+              - Cacao849
+              - Cacao850
+              - Cacao948
+              - Cacao949
+              - Cacao950
+
+              # Bomba
+              - Bomba748
+              - Bomba749
+              - Bomba750
+              - Bomba848
+              - Bomba849
+              - Bomba850
+              - Bomba948
+              - Bomba949
+              - Bomba950
+
+              # Batchata
+              - Batchata748
+              - Batchata749
+              - Batchata750
+              - Batchata848
+              - Batchata849
+              - Batchata850
+              - Batchata948
+              - Batchata949
+              - Batchata950
+
+              # BataCoxa
+              - BataCoxa748
+              - BataCoxa749
+              - BataCoxa750
+              - BataCoxa848
+              - BataCoxa849
+              - BataCoxa850
+              - BataCoxa948
+              - BataCoxa949
+              - BataCoxa950
+
+              # AeroThunder
+              - AeroThunder748
+              - AeroThunder749
+              - AeroThunder750
+              - AeroThunder848
+              - AeroThunder849
+              - AeroThunder850
+              - AeroThunder948
+              - AeroThunder949
+              - AeroThunder950
+
+              # Zouk
+              - Zouk748
+              - Zouk749
+              - Zouk750
+              - Zouk848
+              - Zouk849
+              - Zouk850
+              - Zouk948
+              - Zouk949
+              - Zouk950
+
+              # Walk
+              - Walk748
+              - Walk749
+              - Walk750
+              - Walk848
+              - Walk849
+              - Walk850
+              - Walk948
+              - Walk949
+              - Walk950
+
+              # U Stroke
+              - UStroke748
+              - UStroke749
+              - UStroke750
+              - UStroke848
+              - UStroke849
+              - UStroke850
+              - UStroke948
+              - UStroke949
+              - UStroke950
+
+              # Tambor
+              - Tambor748
+              - Tambor749
+              - Tambor750
+              - Tambor848
+              - Tambor849
+              - Tambor850
+              - Tambor948
+              - Tambor949
+              - Tambor950
+
+              # Rebolation
+              - Rebolation748
+              - Rebolation749
+              - Rebolation750
+              - Rebolation848
+              - Rebolation849
+              - Rebolation850
+              - Rebolation948
+              - Rebolation949
+              - Rebolation950
+
+              # Nkasa
+              - Nkasa748
+              - Nkasa749
+              - Nkasa750
+              - Nkasa848
+              - Nkasa849
+              - Nkasa850
+              - Nkasa948
+              - Nkasa949
+              - Nkasa950
+
+              # Merengue
+              - Merengue748
+              - Merengue749
+              - Merengue750
+              - Merengue848
+              - Merengue849
+              - Merengue850
+              - Merengue948
+              - Merengue949
+              - Merengue950
+
+              # Bouncing Hip Circles
+              - BouncingHipCircles748
+              - BouncingHipCircles749
+              - BouncingHipCircles750
+              - BouncingHipCircles848
+              - BouncingHipCircles849
+              - BouncingHipCircles850
+              - BouncingHipCircles948
+              - BouncingHipCircles949
+              - BouncingHipCircles950
+
+              # Egyptian Hip Slide
+              - EgyptianHipSlide748
+              - EgyptianHipSlide749
+              - EgyptianHipSlide750
+              - EgyptianHipSlide848
+              - EgyptianHipSlide849
+              - EgyptianHipSlide850
+              - EgyptianHipSlide948
+              - EgyptianHipSlide949
+              - EgyptianHipSlide950
+
+              # Egyptian Orbiting Circles
+              - EgyptianOrbitingCircles748
+              - EgyptianOrbitingCircles749
+              - EgyptianOrbitingCircles750
+              - EgyptianOrbitingCircles848
+              - EgyptianOrbitingCircles849
+              - EgyptianOrbitingCircles850
+              - EgyptianOrbitingCircles948
+              - EgyptianOrbitingCircles949
+              - EgyptianOrbitingCircles950
+
+              # Egyptian Small Circles
+              - EgyptianSmallCircles748
+              - EgyptianSmallCircles749
+              - EgyptianSmallCircles750
+              - EgyptianSmallCircles848
+              - EgyptianSmallCircles849
+              - EgyptianSmallCircles850
+              - EgyptianSmallCircles947
+              - EgyptianSmallCircles948
+              - EgyptianSmallCircles950
+
+              # Harrare
+              - Harrare748
+              - Harrare749
+              - Harrare750
+              - Harrare848
+              - Harrare849
+              - Harrare850
+              - Harrare948
+              - Harrare949
+              - Harrare950
+
+              # Ngoma
+              - Ngoma748
+              - Ngoma749
+              - Ngoma750
+              - Ngoma848
+              - Ngoma849
+              - Ngoma850
+              - Ngoma948
+              - Ngoma949
+              - Ngoma950
+
+              # Plank Scrape
+              - PlankScrape748
+              - PlankScrape749
+              - PlankScrape750
+              - PlankScrape848
+              - PlankScrape849
+              - PlankScrape850
+              - PlankScrape948
+              - PlankScrape949
+              - PlankScrape950
+
+              # Ruumba
+              - Ruumba748
+              - Ruumba749
+              - Ruumba750
+              - Ruumba848
+              - Ruumba849
+              - Ruumba850
+              - Ruumba948
+              - Ruumba949
+              - Ruumba950
+
+              # ZigZag
+              - ZigZag748
+              - ZigZag749
+              - ZigZag750
+              - ZigZag848
+              - ZigZag849
+              - ZigZag850
+              - ZigZag948
+              - ZigZag949
+              - ZigZag950
+          description: Must be one of the authorized stroke files
       responses:
         '200':
           description: Stroke protocol retrieved
+
   /files/media.json:
     get:
       operationId: get_media_links
@@ -56,6 +292,7 @@ paths:
       responses:
         '200':
           description: Links to media tutorials retrieved
+
   /notion/page/{pageId}:
     get:
       operationId: get_notion_page
